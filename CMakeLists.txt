@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.10)
 project(OpenGL_Labs)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -19,10 +19,11 @@ add_definitions(${OPENGL_DEFINITIONS})
 find_package(X11 REQUIRED)
 # note that the order is important for setting the libs
 # use pkg-config --libs $(pkg-config --print-requires --print-requires-private glfw3) in a terminal to confirm
-set(LIBS ${GLFW3_LIBRARY} X11 Xrandr Xinerama Xi Xxf86vm Xcursor GL dl pthread freetype ${ASSIMP_LIBRARY})
+set(LIBS ${GLFW3_LIBRARY} X11 Xrandr Xinerama Xi Xxf86vm Xcursor GL dl pthread freetype ${ASSIMP_LIBRARY} SDL2 EGL GLESv1_CM m)
 set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
 
 set(CHAPTERS
+        test
         1.getting_started
 #        2.lighting
 #        3.model_loading
@@ -31,6 +32,9 @@ set(CHAPTERS
 #        6.pbr
 #        7.in_practice
         )
+
+set(test
+        1.gles_linux)
 
 set(1.getting_started
         1.1.hello_window
@@ -68,6 +72,7 @@ foreach(CHAPTER ${CHAPTERS})
         file(GLOB SOURCE
                 "src/${CHAPTER}/${DEMO}/*.h"
                 "src/${CHAPTER}/${DEMO}/*.cpp"
+                "src/${CHAPTER}/${DEMO}/*.c"
                 "src/${CHAPTER}/${DEMO}/*.vs"
                 "src/${CHAPTER}/${DEMO}/*.fs"
                 "src/${CHAPTER}/${DEMO}/*.gs"
@@ -112,3 +117,4 @@ foreach(CHAPTER ${CHAPTERS})
 endforeach(CHAPTER)
 
 include_directories(${CMAKE_SOURCE_DIR}/includes)
+include_directories(/usr/include/SDL2/)
