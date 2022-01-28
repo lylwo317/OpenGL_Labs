@@ -58,14 +58,22 @@ char indices[] = {
 };
 
 
+/**
+ * 在fovy不变的情况下，zNear越大，宽高也跟着变大。这样保证了投影后的物体所占的画面比例不变
+ * 在zNear不变的情况下，fovy越小，宽高也跟着变小。投影后的物体所占的画面比例就变大了。原因相当于画布变小了
+ * @param fovY
+ * @param aspect
+ * @param zNear
+ * @param zFar
+ */
 void emulateGLUperspective(GLfloat fovY, GLfloat aspect, GLfloat zNear,
                            GLfloat zFar)
 {
-    GLfloat fW, fH;
-    fH = tan(fovY / 180 * M_PI) * zNear / 2;
-    fW = fH * aspect;
+    GLfloat fHalfW, fHalfH;
+    fHalfH = tan(fovY / 2 / 180 * M_PI) * zNear;
+    fHalfW = fHalfH * aspect;
     //使用一个透视矩阵乘以当前矩阵
-    glFrustumf(-fW, fW, -fH, fH, zNear, zFar);
+    glFrustumf(-fHalfW, fHalfW, -fHalfH, fHalfH, zNear, zFar);
 }
 
 void init_GLES(void)
@@ -118,11 +126,11 @@ void init_GLES(void)
 
     //设置清屏色
     glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
-    //设置深度1
+    //设置清屏深度1
     glClearDepthf(1.0f);
     glEnable(GL_DEPTH_TEST);
     //<=
-    glDepthFunc(GL_LEQUAL);
+    glDepthFunc(GL_LESS);
 
     //控制透视矫正的偏好，选择质量最优的选项
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -132,7 +140,7 @@ void init_GLES(void)
     //设置矩阵为单位矩阵
     glLoadIdentity();
     //模拟GLU透视
-    emulateGLUperspective(45.0f, (float) screenwidth / (float) screenheight, 0.1f, 100.0f);
+    emulateGLUperspective(70.0f, (float) screenwidth / (float) screenheight, 0.1f, 100.0f);
     glViewport(0, 0, screenwidth, screenheight);
     //将后续矩阵运算应用于视图矩阵栈。
     glMatrixMode(GL_MODELVIEW);
@@ -149,16 +157,18 @@ void draw_frame()
 {
     //清屏
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //深度变成1,颜色变成glClearColor设置的颜色
 
     //设置单位矩阵（针对视图矩阵栈）
     glLoadIdentity();
 
-    //z轴下移8。就是拿远一点，不然就占满屏幕了
-    glTranslatef(0.0f, 0.0f, -8.0f);
+    //z轴下移5。就是拿远一点，不然就占满屏幕了
+    glTranslatef(0.0f, 0.0f, -5.0f);
 
     //矩阵旋转，旋转的角度：mCubeRotation，旋转围绕的向量（0,0,0->0.1,1.0.10 轴）
     glRotatef(mCubeRotation, 0.1f, 1.0f, 1.0f);
 
+    //顺时针绘制的多边形是正面
     glFrontFace(GL_CW);
 
     //设置顶点数组
