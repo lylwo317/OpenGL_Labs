@@ -1,4 +1,5 @@
 // 这个要放在第一位，GLAD的头文件包含了正确的OpenGL头文件（例如GL/gl.h），所以需要在其它依赖于OpenGL的头文件之前包含GLAD。
+// GLAD是用来管理OpenGL的函数指针的，所以在调用任何OpenGL的函数之前我们需要初始化GLAD。
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 

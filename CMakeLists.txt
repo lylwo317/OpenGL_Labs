@@ -19,7 +19,7 @@ add_definitions(${OPENGL_DEFINITIONS})
 find_package(X11 REQUIRED)
 # note that the order is important for setting the libs
 # use pkg-config --libs $(pkg-config --print-requires --print-requires-private glfw3) in a terminal to confirm
-set(LIBS ${GLFW3_LIBRARY} X11 Xrandr Xinerama Xi Xxf86vm Xcursor GL dl pthread freetype ${ASSIMP_LIBRARY} SDL2 EGL GLESv1_CM m)
+set(LIBS ${GLFW3_LIBRARY} X11 Xrandr Xinerama Xi Xxf86vm Xcursor GL dl pthread freetype ${ASSIMP_LIBRARY} SDL2 EGL m)
 set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
 
 set(CHAPTERS
@@ -39,7 +39,7 @@ set(test
 set(1.getting_started
         1.1.hello_window
 #        1.2.hello_window_clear
-#        2.1.hello_triangle
+        2.1.hello_triangle
 #        2.2.hello_triangle_indexed
 #        2.3.hello_triangle_exercise1
 #        2.4.hello_triangle_exercise2
