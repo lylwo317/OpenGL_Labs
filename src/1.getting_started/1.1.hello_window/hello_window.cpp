@@ -39,7 +39,7 @@ int main()
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    //glad使用glloader加载器（这里是glfw提供的）获取函数地址
+    //glad使用glloader加载器（加载器由glfw的gflwGetProcAddress实现）获取函数名对应的函数地址
     if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress)) {
         std::cout << "Failed to initialize GLAD" << std::endl;
         return -1;
@@ -47,12 +47,12 @@ int main()
 
     //下面就可以使用glad来调用opengl函数了
 
-    while(!glfwWindowShouldClose(window)){
+    while(!glfwWindowShouldClose(window)){//检测close flag是否为true
         processInput(window);
 
         //不清屏，就会看到上一次的渲染结果。这个一般都不是我们想要的
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT);//使用clearColor填充color buffer，实现清除效果
 
         glfwSwapBuffers(window);
         glfwPollEvents();
@@ -63,7 +63,11 @@ int main()
     return 0;
 }
 
+/**
+* 当调整窗口大小时，会调用这个回调函数
+*/
 void framebuffer_size_callback(GLFWwindow* window, int width, int height){
+    //根据窗口的大小变更OpenGl的ViewPort大小
     glViewport(0,0,width,height);
 }
 
