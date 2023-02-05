@@ -13,8 +13,8 @@ private:
 public:
   static std::string getPath(const std::string& path)
   {
-    static std::string(*pathBuilder)(std::string const &) = getPathBuilder();
-    return (*pathBuilder)(path);
+    static Builder pathBuilder = getPathBuilder();
+    return pathBuilder(path);
   }
 
 private:

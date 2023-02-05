@@ -135,7 +135,7 @@ int main(){
     glBindBuffer(GL_ARRAY_BUFFER, 0);//解绑VBO
 
     //不能在VAO未解绑的时候，解绑EBO，因为EBO是存储在VAO上的。解绑操作会导致VAO与EBO解除绑定
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);//解绑EBO
+    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);//解绑EBO
 
     glBindVertexArray(0);//解绑VAO
 

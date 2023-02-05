@@ -4,12 +4,17 @@
 #include <cmath>
 #include <iostream>
 #include <cmath>
-
-const char *vertexShaderSource = "#version 330 core\n"
-                                 "layout (location = 0) in vec3 aPos;\n"
-                                 "void main(){\n"
-                                 "  gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                 "}\0";
+//Uniform是一种从CPU中的应用向GPU中的着色器发送数据的方式，但uniform和顶点属性有些不同。
+//首先，uniform是全局的(Global)。全局意味着uniform变量必须在每个着色器程序对象中都是独一无二的，而且它可以被着色器程序的任意着色器在任意阶段访问。
+//第二，无论你把uniform值设置成什么，uniform会一直保存它们的数据，直到它们被重置或更新。
+//我们可以在一个着色器中添加uniform关键字至类型和变量名前来声明一个GLSL的uniform。从此处开始我们就可以在着色器中使用新声明的uniform了。
+    const char* vertexShaderSource
+    = "#version 330 core\n"
+      "layout (location = 0) in vec3 aPos;\n"
+      //"uniform vec4 ourColor;\n"//可以在这里声明，然后使用这个全局变量，但是这里只是为了控制片段着色器的颜色，不需要在顶点着色器声明。
+      "void main(){\n"
+      "  gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+      "}\0";
 const char *fragmentShaderSource = "#version 330 core\n"
                                  "out vec4 fragmentColor;\n"
                                  "uniform vec4 ourColor;\n"//可以在应用程序中控制变量的值
@@ -136,7 +141,10 @@ int main(){
 
         float timeValue = glfwGetTime();
         float greenValue = std::sin(timeValue) / 2.0f + 0.5f; //0~1
+        //获取着色器程序中ourColor的位置，然后使用这个位置来操作该变量的值
         int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+        //ourColor = vec4(0,greeValue,0,1.0)
+        //给uniform变量赋值
         glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
         glBindVertexArray(VAO);
