@@ -1,3 +1,13 @@
 {
-    "C_Cpp.intelliSenseEngine": "disabled"
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "cmake.configureArgs": [
+        // "--trace-expand",
+        "-DGLFW3_ROOT=/home/kevin/Workspace/cppWorkspace/glfw/build",
+        "-DOPENGL_ROOT=/home/kevin/Workspace/cppWorkspace/mesa/build"
+    ],
+    // "cmake.buildArgs": [
+    // ],
+    // "cmake.environment": {
+    //     "LD_LIBRARY_PATH": "/home/kevin/Workspace/cppWorkspace/mesa/build/lib",
+    // },
 }

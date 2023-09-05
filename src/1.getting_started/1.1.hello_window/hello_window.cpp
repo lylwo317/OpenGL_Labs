@@ -55,7 +55,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);//使用clearColor填充color buffer，实现清除效果
 
         glfwSwapBuffers(window);
-        glfwPollEvents();
+        glfwPollEvents();//poll按键事件
     }
 
     glfwTerminate();

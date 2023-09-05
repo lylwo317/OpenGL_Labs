@@ -4,7 +4,7 @@
 #include <iostream>
 
 const char *vertexShaderSource = "#version 330 core\n"
-                                 "layout (location = 0) in vec3 aPos;\n"
+                                 "layout (location = 0) in vec3 aPos;\n"//aPos = VAO.attribute[0]
                                  "void main(){\n"
                                  "  gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
                                  "}\0";
@@ -55,7 +55,7 @@ int main(){
 
     //vertex shader
     int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
+    glShaderSource(vertexShader, 1/*也就数组的大小*/, &vertexShaderSource, nullptr);
     glCompileShader(vertexShader);
 
     //检查编译结果
@@ -138,6 +138,8 @@ int main(){
     // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);//解绑EBO
 
     glBindVertexArray(0);//解绑VAO
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);//解绑EBO
 
     while (!glfwWindowShouldClose(window)) {
         processInput(window);

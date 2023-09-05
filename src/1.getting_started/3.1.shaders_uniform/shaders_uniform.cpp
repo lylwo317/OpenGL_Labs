@@ -15,35 +15,37 @@
       "void main(){\n"
       "  gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
       "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
-                                 "out vec4 fragmentColor;\n"
-                                 "uniform vec4 ourColor;\n"//可以在应用程序中控制变量的值
-                                 "void main(){\n"
-                                 "  fragmentColor = ourColor;\n"
-                                 "}\0";
+    const char *fragmentShaderSource =
+        "#version 330 core\n"
+        "out vec4 fragmentColor;\n"
+        "uniform vec4 ourColor;\n" // 可以在应用程序中控制变量的值
+        "void main(){\n"
+        "  fragmentColor = ourColor;\n" // RGBA（Red, Green, Blue, Alpha）
+        "}\0";
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
+    void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+    void processInput(GLFWwindow *window);
 
-int main(){
+    int main() {
 
-    //初始化glfw
-    glfwInit();
+      // 初始化glfw
+      glfwInit();
 
-    //设置使用的OpenGL版本 3.3
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+      // 设置使用的OpenGL版本 3.3
+      glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+      glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+      glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 #ifdef __APPLE__
-    //Mac OSX 需要开启向前兼容
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+      // Mac OSX 需要开启向前兼容
+      glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    GLFWwindow *window = glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
+      GLFWwindow *window =
+          glfwCreateWindow(800, 600, "LearnOpenGL", nullptr, nullptr);
 
-    if (window == nullptr){
+      if (window == nullptr) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         return -1;
     }
@@ -145,7 +147,7 @@ int main(){
         int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
         //ourColor = vec4(0,greeValue,0,1.0)
         //给uniform变量赋值
-        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);//RGBA
 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);

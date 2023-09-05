@@ -5,21 +5,43 @@ set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 
+# ./cmake/modulese中Findxxx.cmake
+
 # find the required packages
 find_package(GLM REQUIRED)
 message(STATUS "GLM included at ${GLM_INCLUDE_DIR}")
+
+# set(GLFW3_ROOT "/home/kevin/Workspace/cppWorkspace/glfw/build/")
 find_package(GLFW3 REQUIRED)
 message(STATUS "Found GLFW3 in ${GLFW3_INCLUDE_DIR}")
+include_directories(${GLFW3_INCLUDE_DIR})
+
+# set(glfw3_DIR "/home/kevin/Workspace/cppWorkspace/glfw/build/lib/cmake/glfw3/")
+# # set(CMAKE_PREFIX_PATH /home/kevin/Workspace/cppWorkspace/glfw/build/)
+# find_package(glfw3 REQUIRED CONFIG)
+# set(GLFW3_LIBRARY glfw)
+# message(STATUS "${CMAKE_SOURCE_DIR}")
+
 find_package(ASSIMP REQUIRED)
 message(STATUS "Found ASSIMP in ${ASSIMP_INCLUDE_DIR}")
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
-find_package(OpenGL REQUIRED)
-add_definitions(${OPENGL_DEFINITIONS})
+
+# set(OpenGL_GL_PREFERENCE GLVND)
+# find_package(OpenGL REQUIRED)
+# add_definitions(${OPENGL_DEFINITIONS})
+find_package(OPENGL REQUIRED)
+INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+# set(OPENGL_INCLUDE_DIR "/home/kevin/Workspace/cppWorkspace/mesa/build/include")
+# set(OPENGL_LIBRARY_DIR "/home/kevin/Workspace/cppWorkspace/mesa/build/lib")
+# INCLUDE_DIRECTORIES(${OPENGL_INCLUDE_DIR})
+# LINK_DIRECTORIES(${OPENGL_LIBRARY_DIR})
+message(STATUS "Found OpenGL in ${OPENGL_INCLUDE_DIR}")
+
 find_package(X11 REQUIRED)
 # note that the order is important for setting the libs
 # use pkg-config --libs $(pkg-config --print-requires --print-requires-private glfw3) in a terminal to confirm
-set(LIBS ${GLFW3_LIBRARY} X11 Xrandr Xinerama Xi Xxf86vm Xcursor GL dl pthread freetype ${ASSIMP_LIBRARY} SDL2 EGL m)
+set(LIBS glfw X11 Xrandr Xinerama Xi Xxf86vm Xcursor GL dl pthread freetype ${ASSIMP_LIBRARY} SDL2 EGL m)
 set (CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -ldl")
 
 set(CHAPTERS
@@ -48,7 +70,7 @@ set(1.getting_started
         3.2.shaders_interpolation
         3.3.shaders_class
         4.1.textures
-#        4.2.textures_combined
+        4.2.textures_combined
 #        4.4.textures_exercise2
 #        4.5.textures_exercise3
 #        4.6.textures_exercise4

@@ -4,7 +4,7 @@
 #include <iostream>
                                  //最低版本要求3.3，核心渲染模式
 const char *vertexShaderSource = "#version 330 core\n"
-                                 //取vao中index == 15的顶点属性
+                                 //取vao中index == 15的顶点属性(attribute pointer 15)
                                  //in表示输入，vec3 3个一组的向量数据类型，变量名aPos
                                  "layout (location = 15) in vec3 aPos;\n"
                                  "void main(){\n"
@@ -110,17 +110,18 @@ int main(){
     };
 
     GLuint VAOs[2]/*vertex array object*/, VBO/*vertex buffer object*/;
-    glGenVertexArrays(2, VAOs);//
+    glGenVertexArrays(2, VAOs);//生成VAO，VAOs里面存的是VAO对象的标识(int name)，供glBindVertexArray使用
     glGenBuffers(1, &VBO);
 
-    glBindVertexArray(VAOs[1]);
+    glBindVertexArray(VAOs[1]);//绑定到ctx->Array.VAO，也就是当前线程的gl_context实体内
 
     //绑定VBO到GL_ARRAY_BUFFER这个target
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    //导入数据到GPU（显存）
+    glBindBuffer(GL_ARRAY_BUFFER, VBO); //绑定到ctx->Array.ArrayBufferObj，也就是当前线程的gl_context实体内
+    // 导入数据到GPU（显存）中的 GL_ARRAY_BUFFER（VBO）
     glBufferData(GL_ARRAY_BUFFER, sizeof (vertices), vertices, GL_STATIC_DRAW);
 
-    //修改VAO中的顶点属性指针
+
+    /* 修改VertexArray中的顶点属性指针，使其指向GL_ARRAY_BUFFER */
 
     // 绑定VBO到VAO中对应的index属性位置，这里是index == 15的属性
     // glVeretexAttribPointer函数，OpenGL获取此时绑定到GL_ARRAY_BUFFER的缓冲区对象然后关联它到
